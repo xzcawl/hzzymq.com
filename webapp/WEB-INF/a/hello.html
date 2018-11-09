@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabe3">请求</h4>
+</div>
+<table class="table text-nowrap text-center">
+    <tr>
+    <tr>
+        <td class="text-right"><span style="color: red">* </span>请求方式：</td>
+        <td colspan="2"><select id="method">
+            <option value="get">GET</option>
+            <option value="post">POST</option>
+        </select></td>
+    </tr>
+    <tr>
+        <td class="text-right"><span style="color: red">* </span>地址：</td>
+        <td colspan="2"><input class="form-control" id="url"
+                                  name="url" value=""></input></td>
+    </tr>
+    <tr>
+        <td class="text-right"><span style="color: red">* </span>内容：</td>
+        <td colspan="2"><textarea class="form-control" id="request"
+                                  name="request" value=""></textarea></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button onclick="submit()">请求</button>
+        </td>
+    </tr>
+</table>
+
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabe4">返回内容</h4>
+</div>
+<table class="table text-nowrap text-center">
+    <tr id="respone">
+
+    </tr>
+</table>
+
+
+</body>
+</html>
+
+<script type="text/javascript" language="javascript">
+
+    function submit() {
+        var dataParam = {
+            method: $.trim($('#method').val()),
+            url: $.trim($('#url').val()),
+            request: $.trim($('#request').val()),
+        };
+        $.ajax({
+            type: "GET",
+            url: "/submit.do",
+            async: false,
+            data: dataParam,
+//            beforeSend: function () {
+//                $('#' + tras).html('<img src="/assets/images/wait.gif" id="imgimg" class="small-head-img"style="width: 20px;height: 20px">');
+//            },
+//            complete: function () {
+//                $('#imgimg').remove()
+//            },
+            error: function (request) {
+                //$('#'+tras).remove()
+                alert("Connection error");
+            },
+            success: function (data) {
+                //$('#'+tras).remove()
+                //接收后台返回的结果
+                //console.log(data);
+                //alert(data);
+                //location.reload();
+                $('#respone').html('<div>'+JSON.stringify(data)+'</div>');
+
+            }
+        });
+    }
+
+</script>
